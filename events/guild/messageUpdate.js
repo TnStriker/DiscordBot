@@ -10,7 +10,7 @@ module.exports=async(oldMessage,newMessage)=>{
     .addField('After:', newMessage.content, true)
     .setTimestamp()
     .setFooter("StrikerBot doing it's job :D")
-
+    
     let channel = oldMessage.guild.channels.cache.find(ch => ch.name === "botspam")
     if(!channel) return;
     channel.send(embed)
