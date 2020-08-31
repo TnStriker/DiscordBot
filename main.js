@@ -5,6 +5,7 @@ const Streaming = require("discord-streaming")
 const prefix = '!';
 const fs = require('fs');
 
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
 //Bot Token Login
 const config = require('./config/token.json')
@@ -24,7 +25,14 @@ for(const file of commandsFiles){
 client.once('ready', () => {
 //Bot Status
 function randomStatus() {
-    let status = ["over the Discord Server", "YouTube", "Twitch", "Tutorials to upgrade myself with more functions."] 
+    let status = [
+    'over the Discord Server', 
+    'YouTube', 
+    'Twitch', 
+    'Tutorials to upgrade myself with more functions.', 
+    //(`over ${member.guild.memberCount('736014724348641423')} users!`),
+    ]
+
     let rstatus = Math.floor(Math.random() * status.length);
     
     
@@ -72,13 +80,6 @@ client.on('guildMemberRemove', member => {
   });
 
 
-//Highlight Live Streamers
-Streaming(client, {
-    live: "Stream Live"
-    ,required: "Streamers"
-});
-
-
 //Start of Commands
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -110,6 +111,6 @@ client.on('messageDelete' ,async(message)=>{
 })
 
 
-
+//Start of Roles Added/Removed Logs
 
 
