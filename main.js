@@ -4,6 +4,8 @@ const ping = require('minecraft-server-util')
 const Streaming = require("discord-streaming")
 const prefix = '!';
 const fs = require('fs');
+const {blacklist} = require("./data.json")
+
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
@@ -78,6 +80,25 @@ client.on('guildMemberRemove', member => {
     .setFooter("StrikerBot doing it's job :D")
       channel.send(embed);
   });
+
+
+//Blacklisted Words System
+client.on('message', async message => {
+    if (message.author.bot) return;
+    {
+    let confirm = false;
+    var i;
+    for (i=0;i < blacklist.length; i++) {
+        if (message.content.toLowerCase().includes(blacklist[i].toLowerCase()))
+        confirm = true;
+    }
+
+    if(confirm) {
+        message.delete()
+        return message.channel.send("<@103513869984464896>" + ' have been notified and will ban you from the server')
+        }
+    }
+})
 
 
 //Start of Commands
