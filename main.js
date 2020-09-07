@@ -1,15 +1,18 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const Discord = require('discord.js')
+const client = new Discord.Client()
 const ping = require('minecraft-server-util')
 const Streaming = require("discord-streaming")
-const prefix = '!';
-const fs = require('fs');
+const prefix = '!'
+const fs = require('fs')
+const {blacklist} = require("./data.json")
+const roleClaim = require("./events/Rules-Guidelines/role-claim")
+const reactionRoles = require("./events/React-for-Roles/reaction-roles")
 
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error))
 
 //Bot Token Login
 const config = require('./config/token.json')
-client.login(config.Discord_Bot.Token);
+client.login(config.Discord_Bot.Token)
 
 client.commands = new Discord.Collection();
 
@@ -23,23 +26,27 @@ for(const file of commandsFiles){
 
 //Bot Start
 client.once('ready', () => {
+    console.log('StrikerBotTest is online!')
+
+//Rules-Guidelines
+    roleClaim(client)
+//React for Roles
+    reactionRoles(client)
 //Bot Status
 function randomStatus() {
-    let status = [
+    let status = 
+    [
     'over the Discord Server', 
     'YouTube', 
     'Twitch', 
-    'Tutorials to upgrade myself with more functions.', 
-    //(`over ${member.guild.memberCount('736014724348641423')} users!`),
+    'Tutorials to upgrade myself with more functions.' 
     ]
 
     let rstatus = Math.floor(Math.random() * status.length);
     
-    
     client.user.setActivity(status[rstatus], {type: "WATCHING"});
   }; setInterval(randomStatus, 20000) // Time in ms. 20000ms = 20 seconds. Min: 20 seconds, to avoid ratelimit.
-  
-  console.log('StrikerBotTest is online!')
+
 })
 
 
@@ -80,6 +87,25 @@ client.on('guildMemberRemove', member => {
   });
 
 
+//Blacklisted Words System
+client.on('message', async message => {
+    if (message.author.bot) return;
+    {
+    let confirm = false;
+    var i;
+    for (i=0;i < blacklist.length; i++) {
+        if (message.content.toLowerCase().includes(blacklist[i].toLowerCase()))
+        confirm = true;
+    }
+
+    if(confirm) {
+        message.delete()
+        return message.channel.send("<@103513869984464896>" + ' have been notified and will ban you from the server')
+        }
+    }
+})
+
+
 //Start of Commands
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -100,13 +126,13 @@ client.on('message', message =>{
 
 
 //Start of Edited Messages Logs
-client.on('messageUpdate' ,async(oldMessage, newMessage)=>{
-    require('./events/guild/messageUpdate')(oldMessage,newMessage)
+client.on('messageUpdate', async(oldMessage, newMessage)=>{
+    require('./events/guild/messageUpdate')(oldMessage, newMessage)
 })
 
 
 //Start of Deleted Messages Logs
-client.on('messageDelete' ,async(message)=>{
+client.on('messageDelete', async(message)=>{
     require('./events/guild/messageDeleted')(message)
 })
 
