@@ -1,5 +1,5 @@
 const {MessageEmbed} = require('discord.js')
-module.exports=async(message)=>{
+module.exports = async(message)=>{
    
     let embed = new MessageEmbed()
     .setTitle('A Message has been Deleted!')
@@ -9,10 +9,11 @@ module.exports=async(message)=>{
     .addField('Deleted Message:', message.content,true)
     .addField('Deleted in:', message.channel)
     .addField('Deleted at:', message.createdAt)
-    .setFooter("StrikerBot doing it's job :D'")
+    .setFooter("StrikerBot doing it's job :D")
 
     let channel = message.guild.channels.cache.find(ch => ch.name === "botspam")
     if(!channel) return;
+    if (message.author.bot) return;
     channel.send(embed)
     
 }
