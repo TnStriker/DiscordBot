@@ -1,22 +1,21 @@
+const Discord = require('discord.js')
+
 module.exports= {
     name: 'twitter',
     description: "Sends link of Twitter Account",
     execute(message, args) {
 
-        if(message.member.roles.cache.has('674369573495111690')){
-            message.channel.send('Check out my Twitter Profile! https://twitter.com/TnStriker')
+        const logo = 'https://pbs.twimg.com/profile_images/1017974774994227200/fSLG1_Jx_400x400.jpg'
+    
+        const embed = new Discord.MessageEmbed() 
+        .setAuthor('Twitter')
+        .setTitle('TnStriker')
+        .setURL('https://www.twitter.com/TnStriker')
+        .setImage(logo)
+        .setTimestamp()
+        .setColor('BLUE')
+        .setFooter("StrikerBot doing it's job :D")
 
-        } else if(message.member.roles.cache.has('167451970855108609')){
-            message.channel.send('Check out my Twitter Profile! https://twitter.com/TnStriker')
-        
-        } else if(message.member.roles.cache.has('167451506927206400')){
-            message.channel.send('Check out my Twitter Profile! https://twitter.com/TnStriker')            
-
-
-        } else {
-            message.channel.send('Hey there bud. You do not have the proper permissions to use this command!');
-        }
-
-
+        message.channel.send(embed)
     }
 }
