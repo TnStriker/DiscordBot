@@ -2,6 +2,7 @@ const secondMessage = require('./second-message')
 const Discord = require('discord.js')
 
 module.exports = (client) => {
+  //Channel ID
   const channelId = '751670473468936262'
 
   const getEmoji = (emojiName) =>
@@ -10,6 +11,7 @@ module.exports = (client) => {
   const emojis = {
     Twitch: 'Twitch Streamer',
     Youtube: 'Youtube',
+    
 
   }
 
@@ -65,14 +67,14 @@ module.exports = (client) => {
   client.on('messageReactionAdd', (reaction,user) => {
     if (reaction.message.channel.id === channelId) {
         handleReaction(reaction, user, true)
-      console.log('role added')
+      console.log(`role added to ${user.tag}`)
     }
   })
 
   client.on('messageReactionRemove', (reaction,user) => {
     if (reaction.message.channel.id === channelId) {
         handleReaction(reaction, user, false)
-    console.log('roled removed')
+    console.log(`roled removed from ${user.tag}`)
     }
   })
 }
