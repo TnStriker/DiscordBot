@@ -2,6 +2,7 @@ const firstMessage = require('./first-message')
 const Discord = require('discord.js')
 
 module.exports = (client) => {
+  //Channel ID
   const channelId = '751322220604817440'
 
   const getEmoji = (emojiName) =>
@@ -13,7 +14,7 @@ module.exports = (client) => {
 
   const reactions = []
 
-  let emojiText = '**Welcome to the Striker Nation Community!**\n\n**Rules:**\n• Harassment will not be tolerated.\n• Be respectful.\n• Stay on topic with the channels & their descriptions.\n• Do not spam (that goes for emotes as well).\n• No NSFW Content.\n• Offensive names will be changed (Too sexual, racist, uncomfortable, etc.).\n• Uploading ban worthy images (NSFW, racist, art theft, etc.) will result in a ban.\n• Staff have final say in a matter.\n• Impersonation of staff will result in a ban.\n\n**If you agree to the rules above click the emoji to gain access to the server.**\n\nDM any staff member online (MOD) if you need help (Not the Admin). We are here to help maintain the welcoming attitude of the discord.'
+  let emojiText = ''
   for (const key in emojis) {
     const emoji = getEmoji(key)
     reactions.push(emoji)
@@ -61,14 +62,14 @@ module.exports = (client) => {
   client.on('messageReactionAdd', (reaction,user) => {
     if (reaction.message.channel.id === channelId) {
         handleReaction(reaction, user, true)
-      console.log('role added')
+      console.log(`regular role added to ${user.tag}`)
     }
   })
 
   client.on('messageReactionRemove', (reaction,user) => {
     if (reaction.message.channel.id === channelId) {
         handleReaction(reaction, user, false)
-    console.log('role removed')
+    console.log(`regular role removed from ${user.tag}`)
     }
   })
 }
