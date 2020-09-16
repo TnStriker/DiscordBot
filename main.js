@@ -62,6 +62,7 @@ client.on('guildMemberAdd', member => {
     .setAuthor(`${member.user.tag} Has Joined.`, member.user.displayAvatarURL(),)
     .setColor("BLUE")
     .setThumbnail(member.user.displayAvatarURL())
+    .setImage('https://media.giphy.com/media/OkJat1YNdoD3W/giphy.gif')
     .addField('Date Joined', member.user.createdAt)
     .addField('Total Members', member.guild.memberCount, true)
     .setFooter("StrikerBot doing it's job :D")
@@ -78,9 +79,10 @@ client.on('guildMemberRemove', member => {
     // Send the message, mentioning the member
     let embed = new Discord.MessageEmbed()
     .setTitle("Left Server")
-    .setAuthor(`${member.user.tag} Has left`, member.user.displayAvatarURL(),)
+    .setAuthor(`${member.user.tag} Has left`, member.user.displayAvatarURL())
     .setColor("BLUE")
     .setThumbnail(member.user.displayAvatarURL())
+    .setImage('https://austinpomeroy.files.wordpress.com/2014/11/giphy.gif?w=640')
     .addField('Date Left', member.user.createdAt)
     .setFooter("StrikerBot doing it's job :D")
       channel.send(embed);
@@ -137,6 +139,25 @@ client.on('messageDelete', async(message)=>{
 })
 
 
-//Start of Roles Added/Removed Logs
+//Start of User Kicked Logs
+client.off('guildMemberRemove', async(member)=>{
+    require('./events/guild/guildMemberRemove')(member)
+})
 
+
+//Start of User Banned Logs
+client.off('guildBanAdd', async(guild, user)=>{
+    require('./events/guild/guildBanAdd')(guild, user)
+})
+
+
+//Start of Roles Added Logs
+client.off('messageReactionAdd', async(reaction, user) =>{
+    require('./events/guild/messageReactionAdd')(reaction, user)
+})
+
+//Start of Roles Removed Logs
+client.off('messageReactionRemove', async(reaction, user) =>{
+    require('./events/guild/messageReactionRemove')(reaction, user)
+})
 
