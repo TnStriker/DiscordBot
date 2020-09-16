@@ -1,22 +1,21 @@
+const Discord = require('discord.js')
+
 module.exports= {
     name: 'youtube',
     description: "Sends link of Youtube Channel",
     execute(message, args) {
 
-        if(message.member.roles.cache.has('674369573495111690')){
-            message.channel.send('Check out my Youtube Channel! https://www.youtube.com/channel/UCVi5FT5cseYIOvi38PYo4tg')
-        
-        } else if(message.member.roles.cache.has('167451970855108609')){
-                message.channel.send('Check out my Youtube Channel! https://www.youtube.com/channel/UCVi5FT5cseYIOvi38PYo4tg')
+        const logo = 'https://yt3.ggpht.com/a/AATXAJy6XbekbgDLQumtbXeiWfKf2ujkqYrps5cNdpAgNA=s900-c-k-c0xffffffff-no-rj-mo'
 
-        } else if(message.member.roles.cache.has('167451506927206400')){
-                message.channel.send('Check out my Youtube Channel! https://www.youtube.com/channel/UCVi5FT5cseYIOvi38PYo4tg')        
+        const embed = new Discord.MessageEmbed() 
+        .setTitle('TnStrikerGamer')
+        .setURL('https://www.youtube.com/channel/UCVi5FT5cseYIOvi38PYo4tg')
+        .setThumbnail(logo)
+        .addField('Hey YouTube, TnStrikerGamer here. I upload all kinds of content here, so make sure to check it out and suggest games for me to do!', "Don't forget to subcribe!")
+        .setTimestamp()
+        .setColor('RED')
+        .setFooter("StrikerBot doing it's job :D")
 
-
-        } else {
-            message.channel.send('Hey there bud. You do not have the proper permissions to use this command!');
-        }
-        
-        
-    }
+        message.channel.send(embed)  
+    } 
 }
