@@ -5,12 +5,13 @@ module.exports= {
     name: 'mc',
     description: "This is a uptime checker",
     execute(message,args){
-        ping('nerdherd.apexmc.co', 25565, (error, response) =>{
+        ping('104.175.166.175', 25565, (error, response) =>{
+        //ping('nerdherd.apexmc.co', 25565, (error, response) =>{
             if(error){
-                message.channel.send('The Server is not Online at the moment!')
+                message.channel.send("The Server is not Online at the moment! It's either being updated or the API isn't working at the moment!")
             } else {
             
-            let embed = new Discord.MessageEmbed()
+            let embed = new Discord.MessageEmbed('\u200b')
             .setTitle('Server Status')
             .setColor('BLUE')
             .setThumbnail('https://cdn.discordapp.com/attachments/619118156954468372/723601688925306910/Untitled.png')
