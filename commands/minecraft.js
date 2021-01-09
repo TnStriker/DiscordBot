@@ -11,7 +11,7 @@ module.exports= {
                 message.channel.send("The Server is not Online at the moment! It's either being updated or the API isn't working at the moment!")
             } else {
             
-            let embed = new Discord.MessageEmbed('\u200b')
+            let embed = new Discord.MessageEmbed()
             .setTitle('Server Status')
             .setColor('BLUE')
             .setThumbnail('https://cdn.discordapp.com/attachments/619118156954468372/723601688925306910/Untitled.png')
