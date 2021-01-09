@@ -2,10 +2,11 @@ const Discord = require('discord.js')
 
 module.exports= {
     name: 'kick',
-    description: "Kicks person from the server",
+    aliases: ['kick'],
+    description: "Kicks person from the server (**For mods and server owner only**)",
     execute(message, args) {
 
-        //Role ID(Has to be set to moderators and above)
+        //Role ID(Has to be set to moderators and above or if you have different levels of moderation you can choose the rank that can use it)
         if(!message.member.roles.cache.has('167451506927206400')) return message.channel.send("You are not a mod of the server.");
 
         let toKick = message.mentions.members.first();
