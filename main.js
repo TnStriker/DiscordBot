@@ -1,6 +1,5 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const ping = require('minecraft-server-util')
 const Streaming = require("discord-streaming")
 const prefix = '!'
 const fs = require('fs')
@@ -82,7 +81,6 @@ client.on('guildMemberRemove', member => {
     .setAuthor(`${member.user.tag} Has left`, member.user.displayAvatarURL())
     .setColor("BLUE")
     .setThumbnail(member.user.displayAvatarURL())
-    .setImage('https://austinpomeroy.files.wordpress.com/2014/11/giphy.gif?w=640')
     .addField('Date Left', member.user.createdAt)
     .setFooter("StrikerBot doing it's job :D")
       channel.send(embed);
@@ -102,7 +100,7 @@ client.on('message', async message => {
 
     if(confirm) {
         message.delete()
-        return message.channel.send("<@103513869984464896>" + ' have been notified and will ban you from the server')
+        return message.channel.send("<@103513869984464896>" + ' has been notified and will ban you from the server')
         }
     }
 })
@@ -137,27 +135,3 @@ client.on('messageUpdate', async(oldMessage, newMessage)=>{
 client.on('messageDelete', async(message)=>{
     require('./events/guild/messageDeleted')(message)
 })
-
-
-//Start of User Kicked Logs
-client.off('guildMemberRemove', async(member)=>{
-    require('./events/guild/guildMemberRemove')(member)
-})
-
-
-//Start of User Banned Logs
-client.off('guildBanAdd', async(guild, user)=>{
-    require('./events/guild/guildBanAdd')(guild, user)
-})
-
-
-//Start of Roles Added Logs
-client.off('messageReactionAdd', async(reaction, user) =>{
-    require('./events/guild/messageReactionAdd')(reaction, user)
-})
-
-//Start of Roles Removed Logs
-client.off('messageReactionRemove', async(reaction, user) =>{
-    require('./events/guild/messageReactionRemove')(reaction, user)
-})
-
