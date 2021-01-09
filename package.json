@@ -11,6 +11,7 @@
   "dependencies": {
     "discord-streaming": "^2.2.0",
     "discord.js": "^12.3.1",
-    "minecraft-server-util": "^1.4.3"
+    "minecraft-server-util": "^1.4.3",
+    "node-fetch": "^2.6.1"
   }
 }
