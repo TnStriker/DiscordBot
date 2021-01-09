@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 
 module.exports = {
   name: "live",
-  description: "To announce you are live",
+  description: "To announce you are live (**For server owner only**)",
 
   execute(message, agrs) {
 
