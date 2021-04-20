@@ -7,10 +7,10 @@ module.exports = async(guild, user)=>{
     .setThumbnail(user.displayAvatarURL())
     .addField(`User banned from ${guild.name}:`, user.tag)
     .setTimestamp()
-    .setFooter("StrikerBot took out the trash! -_-")
+    .setFooter("DiscordBot took out the trash! -_-")
     
     //Channel Name
-    let channel = member.guild.channels.cache.find(ch => ch.name === "botspam")
+    let channel = member.guild.channels.cache.find(ch => ch.name === "**")
     if(!channel) return;
     channel.send(embed)
 

@@ -3,16 +3,16 @@ const Discord = require('discord.js')
 
 module.exports = (client) => {
   //Channel ID
-  const channelId = '751670473468936262'
+  const channelId = '**'
 
   const getEmoji = (emojiName) =>
     client.emojis.cache.find((emoji) => emoji.name === emojiName)
 
+  //You can add more roles here
   const emojis = {
-    Twitch: 'Twitch Streamer',
-    Youtube: 'Youtube',
-    
-
+  //Role Name: 'Emoji Name',
+  //Role Name: 'Emoji Name',
+  //Role Name: 'Emoji Name',
   }
 
   const reactions = []
@@ -29,12 +29,12 @@ module.exports = (client) => {
 
   const embed = new Discord.MessageEmbed() 
   .setTitle('Roles')
-  .setThumbnail('https://64.media.tumblr.com/77f6b7319f1aeb048973be48368b0784/tumblr_ovq5tr4u2M1v6lhveo1_250.png')
+  .setThumbnail('**')
   //.setImage('')
   .addField('These are the roles you can choose from!\n', emojiText)
   .setTimestamp()
   .setColor('PURPLE')
-  .setFooter("StrikerBot doing it's job :D")
+  .setFooter("DiscordBot doing it's job :D")
 
   
   secondMessage(client, channelId, embed, reactions)

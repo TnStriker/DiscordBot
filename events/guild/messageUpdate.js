@@ -8,11 +8,11 @@ module.exports = async(oldMessage, newMessage)=>{
     .setTitle('A Message has been Edited!')
     .addField('Before:', `${oldMessage.content}`,true)
     .addField('After:', `${newMessage.content}`,true)
-    .setTimestamp()
-    .setFooter("StrikerBot doing it's job :D")
+    .setTimestamp(newMessage.createdAt)
+    .setFooter("DiscordBot doing it's job :D")
     
     //Channel Name
-    let channel = oldMessage.guild.channels.cache.find(ch => ch.name === "botspam")
+    let channel = oldMessage.guild.channels.cache.find(ch => ch.name === "**")
     if(!channel) return;
     //if (message.author.bot) return;
     channel.send(embed)

@@ -7,26 +7,29 @@ const {blacklist} = require("./data.json")
 const roleClaim = require("./events/Rules-Guidelines/role-claim")
 const reactionRoles = require("./events/React-for-Roles/reaction-roles")
 
+
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error))
 
 //Bot Token Login
 const config = require('./config/token.json')
 client.login(config.Discord_Bot.Token)
 
+//Command Handler
 client.commands = new Discord.Collection();
+const commandFolders = fs.readdirSync('./commands');
 
-const commandsFiles =fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-for(const file of commandsFiles){
-    const command = require(`./commands/${file}`);
-
-    client.commands.set(command.name, command);
+for (const folder of commandFolders) {
+	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		const command = require(`./commands/${folder}/${file}`);
+		client.commands.set(command.name, command);
+	}
 }
-
 
 //Bot Start
 client.once('ready', () => {
-    console.log('StrikerBotTest is online!')
-
+    console.log('DiscordBot is online!')
+    console.log(fs.readFileSync('bigtitle.txt').toString())
 //Rules-Guidelines
     roleClaim(client)
 //React for Roles
@@ -38,7 +41,8 @@ function randomStatus() {
     'over the Discord Server', 
     'YouTube', 
     'Twitch', 
-    'Tutorials to upgrade myself with more functions.' 
+    'Tutorials to upgrade myself with more functions.',
+    'Type !help to see the commands!'
     ]
 
     let rstatus = Math.floor(Math.random() * status.length);
@@ -52,19 +56,30 @@ function randomStatus() {
 //Start of Welcome Message
 client.on('guildMemberAdd', member => {
     // Send the message to a designated channel on a server:
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'botspam');
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome-channel');
     // If the channel wasn't found on this server it does nothing
     if (!channel) return;
     // Send the message, mentioning the member
+
+    //you can change gif img's here
+    let gifs = [
+        "https://media.giphy.com/media/OkJat1YNdoD3W/giphy.gif",
+        "https://media.giphy.com/media/cIIlbjoKoXCo6K2jrp/giphy.gif",
+        "https://media.giphy.com/media/Nx0rz3jtxtEre/giphy.gif",
+        "https://media1.tenor.com/images/7446f34a377c958e00783b55c84ae29a/tenor.gif?itemid=3578889"
+    ];
+
+    let pick = gifs[Math.floor(Math.random() * gifs.length)];
+    
     let embed = new Discord.MessageEmbed()
     .setTitle("Welcome to the Server!")
     .setAuthor(`${member.user.tag} Has Joined.`, member.user.displayAvatarURL(),)
     .setColor("BLUE")
     .setThumbnail(member.user.displayAvatarURL())
-    .setImage('https://media.giphy.com/media/OkJat1YNdoD3W/giphy.gif')
+    .setImage(pick)
     .addField('Date Joined', member.user.createdAt)
     .addField('Total Members', member.guild.memberCount, true)
-    .setFooter("StrikerBot doing it's job :D")
+    .setFooter("DiscordBot doing it's job :D")
       channel.send(embed);
   });
 
@@ -72,7 +87,7 @@ client.on('guildMemberAdd', member => {
 //Start of Goodbye Message
 client.on('guildMemberRemove', member => {
     // Send the message to a designated channel on a server:
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'botspam');
+    const channel = member.guild.channels.cache.find(ch => ch.name === 'bot-logs');
     // If the channel wasn't found on this server it does nothing
     if (!channel) return;
     // Send the message, mentioning the member
@@ -82,7 +97,7 @@ client.on('guildMemberRemove', member => {
     .setColor("BLUE")
     .setThumbnail(member.user.displayAvatarURL())
     .addField('Date Left', member.user.createdAt)
-    .setFooter("StrikerBot doing it's job :D")
+    .setFooter("DiscordBot doing it's job :D")
       channel.send(embed);
   });
 
@@ -110,13 +125,17 @@ client.on('message', async message => {
 client.on('message', message =>{
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-    if (!client.commands.has(command)) return;
+    const command = client.commands.get(commandName)
+        || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    
+    if (!command) return;
 
     try {
-	    client.commands.get(command).execute(message, args);
+	    command.execute(message, args, commandName, client);
+
     } catch (error) {
 	    console.error(error);
 	    message.reply('there was an error trying to execute that command!');
@@ -128,10 +147,15 @@ client.on('message', message =>{
 //Start of Edited Messages Logs
 client.on('messageUpdate', async(oldMessage, newMessage)=>{
     require('./events/guild/messageUpdate')(oldMessage, newMessage)
-})
+});
 
 
 //Start of Deleted Messages Logs
 client.on('messageDelete', async(message)=>{
     require('./events/guild/messageDeleted')(message)
+});
+
+//Start of Boost Guild Logs
+client.on('boostguildUpdate', async(client, oldMember, newMember)=>{
+    require('./events/guild/boostguildUpdate')(client, oldMember, newMember)
 })

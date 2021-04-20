@@ -4,7 +4,7 @@ module.exports= {
     execute(message, args) {
 
         //Role ID
-        if(message.member.roles.cache.has('167451506927206400')){
+        if(message.member.roles.cache.has('**')){
                 message.channel.send(`Only use these commands in <#754978114555215953>. They are for logging purposes.\n!ban, !kick`)        
 
         } else {
